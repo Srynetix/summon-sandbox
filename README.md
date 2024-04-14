@@ -30,6 +30,9 @@ For a better experience, you might want to run the desktop version.
 - _"Art"_: [Krita], [Blender] and [Pixelorama],
 - _Sound effects and music track_: [FL Studio](https://www.image-line.com/fl-studio/), almost only with 3xOsc for sound effects and Kepler for the soundtrack.
 
+**Font used**:
+- Font Awesome 6
+
 _Good luck, and have fun!_
 
 ## Preview
