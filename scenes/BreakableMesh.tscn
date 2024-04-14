@@ -1,0 +1,71 @@
+[gd_scene load_steps=13 format=3 uid="uid://q3lt0ey0w7tc"]
+
+[ext_resource type="Script" path="res://scenes/BreakableMesh.gd" id="1_4xi5p"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/fx/SxGPUParticles3D.gd" id="2_gs0q2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fsnby"]
+resource_local_to_scene = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_a3apc"]
+size = Vector3(4, 4, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sjvlb"]
+size = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_id007"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_nnd4t"]
+offsets = PackedFloat32Array(0, 0.681818)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3tm76"]
+gradient = SubResource("Gradient_nnd4t")
+
+[sub_resource type="Curve" id="Curve_spjb6"]
+_data = [Vector2(0, 0.405941), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6kgnm"]
+curve = SubResource("Curve_spjb6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fvj2a"]
+emission_shape = 3
+emission_box_extents = Vector3(3, 3, 3)
+gravity = Vector3(0, 1, 0)
+scale_min = 4.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_6kgnm")
+color_ramp = SubResource("GradientTexture1D_3tm76")
+
+[sub_resource type="QuadMesh" id="QuadMesh_ekj3y"]
+
+[node name="BreakableMesh" type="RigidBody3D"]
+script = ExtResource("1_4xi5p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00908, 0)
+material_override = SubResource("StandardMaterial3D_fsnby")
+mesh = SubResource("BoxMesh_a3apc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00908, 0)
+shape = SubResource("BoxShape3D_sjvlb")
+
+[node name="ExplosionVFX" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00908, 0)
+material_override = SubResource("StandardMaterial3D_id007")
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_fvj2a")
+draw_pass_1 = SubResource("QuadMesh_ekj3y")
+script = ExtResource("2_gs0q2")

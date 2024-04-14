@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://ckm2ttwscpslt"]
+
+[ext_resource type="Script" path="res://scenes/HelpZone.gd" id="1_7hxwm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf3i3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fap74"]
+transparency = 1
+albedo_color = Color(0.172549, 0.352941, 1, 0.356863)
+emission_enabled = true
+emission = Color(0.0235294, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_50l41"]
+size = Vector3(1.5, 0.1, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hvesd"]
+transparency = 1
+albedo_color = Color(0.435294, 1, 0.854902, 0.411765)
+emission_enabled = true
+emission = Color(0.027451, 0.560784, 0.560784, 1)
+emission_energy_multiplier = 5.67
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="TextMesh" id="TextMesh_lfn2l"]
+text = "?"
+font_size = 127
+
+[node name="HelpZone" type="Area3D"]
+script = ExtResource("1_7hxwm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.488874, 0)
+shape = SubResource("BoxShape3D_yf3i3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0577483, 0)
+material_override = SubResource("StandardMaterial3D_fap74")
+mesh = SubResource("BoxMesh_50l41")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00149, 0)
+material_override = SubResource("StandardMaterial3D_hvesd")
+mesh = SubResource("TextMesh_lfn2l")

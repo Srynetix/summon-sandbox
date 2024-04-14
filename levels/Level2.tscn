@@ -1,0 +1,209 @@
+[gd_scene load_steps=20 format=3 uid="uid://2mmula4g70eg"]
+
+[ext_resource type="Material" uid="uid://c1v58ed4r0rqc" path="res://resources/WallMaterial.tres" id="1_02dik"]
+[ext_resource type="Script" path="res://levels/Level2.gd" id="1_w1smq"]
+[ext_resource type="PackedScene" uid="uid://3g4j6bgmsj6m" path="res://assets/meshes/Weapon.glb" id="3_1bsos"]
+[ext_resource type="PackedScene" uid="uid://q3lt0ey0w7tc" path="res://scenes/BreakableMesh.tscn" id="4_oksgu"]
+[ext_resource type="FontFile" uid="uid://b0uwjlvt0sevu" path="res://addons/sxgd/modules/SxFontAwesome/assets/otfs/Font Awesome 6 Free-Solid-900.otf" id="5_v53do"]
+[ext_resource type="PackedScene" uid="uid://d377dwumtddb5" path="res://scenes/RemovableZone.tscn" id="6_jebki"]
+[ext_resource type="PackedScene" uid="uid://ckm2ttwscpslt" path="res://scenes/HelpZone.tscn" id="7_ct2d2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gj2lq"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_eucx2"]
+colors = PackedColorArray(1, 1, 1, 0.560784, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7wei3"]
+gradient = SubResource("Gradient_eucx2")
+
+[sub_resource type="Curve" id="Curve_yu62n"]
+_data = [Vector2(0, 0.544554), 0.0, 0.0, 0, 0, Vector2(0.493243, 0.841584), 0.0, 0.0, 0, 0, Vector2(1, 0.594059), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vrnka"]
+curve = SubResource("Curve_yu62n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_acyy3"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_max = 720.0
+gravity = Vector3(0, 1, 0)
+tangential_accel_min = 5.0
+tangential_accel_max = 5.0
+scale_curve = SubResource("CurveTexture_vrnka")
+color_ramp = SubResource("GradientTexture1D_7wei3")
+
+[sub_resource type="QuadMesh" id="QuadMesh_ey8hy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6crwe"]
+
+[sub_resource type="Animation" id="Animation_6k36k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qhogl"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iegbw"]
+_data = {
+"RESET": SubResource("Animation_6k36k"),
+"hover": SubResource("Animation_qhogl")
+}
+
+[sub_resource type="TextMesh" id="TextMesh_0e42h"]
+text = "Wanna gain height
+"
+font = ExtResource("5_v53do")
+font_size = 48
+
+[node name="Level2" type="Node3D"]
+script = ExtResource("1_w1smq")
+
+[node name="PlayerPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0535126, 11.863, -44.022)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.0553, 0)
+material_override = ExtResource("1_02dik")
+use_collision = true
+size = Vector3(16, 51, 101)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5615, 0.269966)
+operation = 2
+size = Vector3(15, 20, 100.023)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.43561, 49.8229)
+size = Vector3(4, 4, 4)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.1716, 34.3689)
+size = Vector3(15, 15, 15)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D/CSGBox3D2"]
+operation = 2
+size = Vector3(14, 14, 14)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 11.824, -27.5196)
+material_override = ExtResource("1_02dik")
+use_collision = true
+radius = 4.5
+height = 40.5
+sides = 16
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="CSGCylinder3D"]
+operation = 2
+radius = 4.0
+height = 40.0
+sides = 16
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCylinder3D/CSGCylinder3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.0408, -8.76009e-07)
+size = Vector3(4, 1, 4)
+
+[node name="WeaponContainer" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.91549, -36.0318)
+
+[node name="Weapon" parent="WeaponContainer" instance=ExtResource("3_1bsos")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WeaponContainer/Weapon"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="WeaponContainer/Weapon"]
+transform = Transform3D(0.333, 7.75328e-11, -1.24052e-09, -7.75327e-11, 0.333, 7.44312e-09, 1.24052e-09, -7.44312e-09, 0.333, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_gj2lq")
+preprocess = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_acyy3")
+draw_pass_1 = SubResource("QuadMesh_ey8hy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponContainer"]
+shape = SubResource("BoxShape3D_6crwe")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponContainer"]
+libraries = {
+"": SubResource("AnimationLibrary_iegbw")
+}
+autoplay = "hover"
+
+[node name="BreakableMesh" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.86, -10.135)
+
+[node name="BreakableMesh2" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.86, 16.5331)
+
+[node name="BreakableMesh3" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(-0.963612, 0.267306, 0, -0.267306, -0.963612, 0, 0, 0, 1, -0.0122547, 16.9122, 12.1551)
+
+[node name="BreakableMesh5" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(-0.963612, 0.267306, 0, -0.267306, -0.963612, 0, 0, 0, 1, 1.41333, 17.145, 47.6366)
+
+[node name="BreakableMesh6" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(-0.963612, 0.267306, 0, -0.267306, -0.963612, 0, 0, 0, 1, -4.27499, 17.145, 47.6366)
+
+[node name="BreakableMesh7" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(-0.963612, 0.267306, 0, -0.267306, -0.963612, 0, 0, 0, 1, -0.772226, 20.9193, 47.6366)
+
+[node name="BreakableMesh8" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(-0.963612, 0.267306, 0, -0.267306, -0.963612, 0, 0, 0, 1, 5.11728, 20.9193, 47.6366)
+
+[node name="BreakableMesh9" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(-0.963612, 0.267306, 0, -0.267306, -0.963612, 0, 0, 0, 1, -4.27697, 25.9783, 47.6366)
+
+[node name="BreakableMesh4" parent="." instance=ExtResource("4_oksgu")]
+transform = Transform3D(-0.963612, 0.267306, 0, -0.267306, -0.963612, 0, 0, 0, 1, 0.495396, 16.9122, -0.00251007)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0915978, 9.11079, -7.18295)
+mesh = SubResource("TextMesh_0e42h")
+
+[node name="RemovableZone" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("6_jebki")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 11.2644, 41.9324)
+shape_size = Vector3(5, 0.1, 5)
+csg_shape = NodePath("../CSGBox3D/CSGBox3D2")
+
+[node name="HelpZone" parent="." instance=ExtResource("7_ct2d2")]
+transform = Transform3D(-0.99999, -0.000262987, 0.0043567, 0, 0.998183, 0.0602541, -0.00436463, 0.0602535, -0.998174, -0.253214, 7.48845, 25.2793)
+text = "Wow, that's high.
+Look around you may find something useful."
+
+[node name="HelpZone2" parent="." instance=ExtResource("7_ct2d2")]
+transform = Transform3D(-0.999657, -0.000550341, 0.0261781, 0, 0.999779, 0.0210183, -0.0261839, 0.0210111, -0.999436, -0.41339, 7.94713, 29.5586)
+text = "Hey, good job!
+You found this room all by yourself.
+Nothing to see here, but keep your eyes open."

@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://0i31hgukva2p"]
+
+[ext_resource type="Script" path="res://scenes/jump_platform/JumpPlatform.gd" id="1_1j8j2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mun4b"]
+size = Vector3(1, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a2syx"]
+billboard_mode = 1
+
+[sub_resource type="TextMesh" id="TextMesh_xv7m7"]
+material = SubResource("StandardMaterial3D_a2syx")
+text = "JUMP"
+font_size = 32
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yksar"]
+size = Vector3(1, 0.25, 1)
+
+[node name="JumpPlatform" type="Area3D"]
+script = ExtResource("1_1j8j2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_mun4b")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58185, 0)
+mesh = SubResource("TextMesh_xv7m7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_yksar")

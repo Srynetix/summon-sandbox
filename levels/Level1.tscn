@@ -1,0 +1,145 @@
+[gd_scene load_steps=19 format=3 uid="uid://772yhpmq6kdl"]
+
+[ext_resource type="PackedScene" uid="uid://bdrp6l1cckqp6" path="res://assets/meshes/SummoningRing.glb" id="1_n7kcs"]
+[ext_resource type="Script" path="res://levels/Level1.gd" id="1_ohj1f"]
+[ext_resource type="Material" uid="uid://c1v58ed4r0rqc" path="res://resources/WallMaterial.tres" id="2_0y1hn"]
+[ext_resource type="PackedScene" uid="uid://d377dwumtddb5" path="res://scenes/RemovableZone.tscn" id="5_rgkxk"]
+[ext_resource type="FontFile" uid="uid://b0uwjlvt0sevu" path="res://addons/sxgd/modules/SxFontAwesome/assets/otfs/Font Awesome 6 Free-Solid-900.otf" id="6_47ufj"]
+[ext_resource type="PackedScene" uid="uid://ckm2ttwscpslt" path="res://scenes/HelpZone.tscn" id="6_i5g5o"]
+
+[sub_resource type="Animation" id="Animation_ur0hj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jjquo"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.18, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hynet"]
+_data = {
+"RESET": SubResource("Animation_ur0hj"),
+"hover": SubResource("Animation_jjquo")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hr64k"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_epj2n"]
+colors = PackedColorArray(1, 1, 1, 0.560784, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jrv7a"]
+gradient = SubResource("Gradient_epj2n")
+
+[sub_resource type="Curve" id="Curve_k6ebk"]
+_data = [Vector2(0, 0.544554), 0.0, 0.0, 0, 0, Vector2(0.493243, 0.841584), 0.0, 0.0, 0, 0, Vector2(1, 0.594059), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ygsfu"]
+curve = SubResource("Curve_k6ebk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ktk72"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_max = 720.0
+gravity = Vector3(0, 1, 0)
+tangential_accel_min = 5.0
+tangential_accel_max = 5.0
+scale_curve = SubResource("CurveTexture_ygsfu")
+color_ramp = SubResource("GradientTexture1D_jrv7a")
+
+[sub_resource type="QuadMesh" id="QuadMesh_quqdb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_feqqm"]
+
+[sub_resource type="TextMesh" id="TextMesh_cjho2"]
+text = ""
+font = ExtResource("6_47ufj")
+font_size = 127
+
+[node name="Level1" type="Node3D"]
+script = ExtResource("1_ohj1f")
+
+[node name="PlayerPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.567737, 0)
+
+[node name="RemovableZone" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("5_rgkxk")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -2.88323, -5.03321)
+shape_size = Vector3(4, 0.1, 4)
+csg_shape = NodePath("../CSGBox3D")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+material_override = ExtResource("2_0y1hn")
+use_collision = true
+size = Vector3(10.5, 10.5, 10.5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+operation = 2
+size = Vector3(10, 10, 10)
+
+[node name="SummoningRingWrapper" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.999451, 0.00294552, 0.0329897, 0, 0.996038, -0.0889321, -0.033121, 0.0888833, 0.995491, 0.0730123, -3.64135, 4.06646)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SummoningRingWrapper"]
+root_node = NodePath("../SummoningRing")
+libraries = {
+"": SubResource("AnimationLibrary_hynet")
+}
+autoplay = "hover"
+
+[node name="SummoningRing" parent="SummoningRingWrapper" instance=ExtResource("1_n7kcs")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="SummoningRingWrapper/SummoningRing"]
+transform = Transform3D(1, 2.32831e-10, 5.20417e-18, -2.32831e-10, 1, 2.23517e-08, 4.1359e-25, -2.23517e-08, 1, 0, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="SummoningRingWrapper/SummoningRing"]
+transform = Transform3D(1, -4.65661e-10, 0, -2.32831e-10, 1, -7.45058e-09, 3.72529e-09, -2.23517e-08, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_hr64k")
+preprocess = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_ktk72")
+draw_pass_1 = SubResource("QuadMesh_quqdb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SummoningRingWrapper"]
+shape = SubResource("BoxShape3D_feqqm")
+
+[node name="Hint" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.95599)
+mesh = SubResource("TextMesh_cjho2")
+
+[node name="HelpZone" parent="." instance=ExtResource("6_i5g5o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.99988, -3.32191)
+text = "Hmmm...
+Something is off with this wall."

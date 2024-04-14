@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://bst04qj5m5n1n"]
+
+[ext_resource type="Shader" path="res://addons/sxgd/nodes/3d/SxDecal/SxDecal.gdshader" id="1_e6hmx"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/3d/SxDecal/SxDecal.gd" id="2_qstvr"]
+[ext_resource type="Texture2D" uid="uid://l1e3u6ui6gcj" path="res://assets/textures/decal.png" id="2_tspv8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0c207"]
+render_priority = 0
+shader = ExtResource("1_e6hmx")
+shader_parameter/albedo = Color(1, 1, 1, 0)
+shader_parameter/cube_half_size = 0.5
+shader_parameter/texture_albedo = ExtResource("2_tspv8")
+
+[sub_resource type="BoxMesh" id="BoxMesh_25pgq"]
+size = Vector3(1, 0.1, 1)
+
+[node name="BulletDecal" type="MeshInstance3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_0c207")
+mesh = SubResource("BoxMesh_25pgq")
+script = ExtResource("2_qstvr")
+texture = ExtResource("2_tspv8")

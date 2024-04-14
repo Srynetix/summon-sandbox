@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://l2tivylib4mn"]
+
+[ext_resource type="Script" path="res://addons/sxgd/nodes/3d/SxZoneLimitsTracker.gd" id="1_33w3i"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_foxe1"]
+friction = 0.75
+bounce = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_uay1l"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wk0jd"]
+
+[node name="Cube" type="RigidBody3D"]
+mass = 0.25
+physics_material_override = SubResource("PhysicsMaterial_foxe1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.496883, 0)
+mesh = SubResource("BoxMesh_uay1l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.496883, 0)
+shape = SubResource("BoxShape3D_wk0jd")
+
+[node name="SxZoneLimitsTracker" type="Node3D" parent="."]
+script = ExtResource("1_33w3i")

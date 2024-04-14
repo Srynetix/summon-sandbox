@@ -1,0 +1,74 @@
+[gd_scene load_steps=17 format=3 uid="uid://bluf74mfjs3tw"]
+
+[ext_resource type="Script" path="res://scenes/player/PlayerWeapon.gd" id="1_87ec2"]
+[ext_resource type="PackedScene" uid="uid://bst04qj5m5n1n" path="res://scenes/player/BulletDecal.tscn" id="2_k3vaj"]
+[ext_resource type="AudioStream" uid="uid://brchpjtkv1tph" path="res://assets/sounds/LD55/fire.wav" id="3_5akx1"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/audio/SxAudioStreamPlayer.gd" id="3_d6blr"]
+[ext_resource type="PackedScene" uid="uid://3g4j6bgmsj6m" path="res://assets/meshes/Weapon.glb" id="3_obrdx"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/fx/SxGPUParticles3D.gd" id="4_7k2f4"]
+[ext_resource type="AudioStream" uid="uid://cm2c7wgqp6jbw" path="res://assets/sounds/LD55/impact.wav" id="6_jqdqo"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/audio/SxAudioStreamPlayer3D.gd" id="7_87hj8"]
+[ext_resource type="PackedScene" uid="uid://c5mp37kw4unrq" path="res://scenes/player/WeaponCursor.tscn" id="8_igoof"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4lxv3"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_dvrlw"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tu0l1"]
+gradient = SubResource("Gradient_dvrlw")
+
+[sub_resource type="Curve" id="Curve_shwec"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.182432, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_iqek0"]
+curve = SubResource("Curve_shwec")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u2uji"]
+direction = Vector3(0, 0, -1)
+spread = 0.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, -1, 0)
+scale_curve = SubResource("CurveTexture_iqek0")
+color_ramp = SubResource("GradientTexture1D_tu0l1")
+
+[sub_resource type="QuadMesh" id="QuadMesh_1tl4i"]
+size = Vector2(0.5, 0.5)
+
+[node name="PlayerWeapon" type="Node3D"]
+script = ExtResource("1_87ec2")
+decal_scene = ExtResource("2_k3vaj")
+
+[node name="WeaponMesh" parent="." instance=ExtResource("3_obrdx")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="FireSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_jqdqo")
+volume_db = -14.0
+script = ExtResource("3_d6blr")
+
+[node name="FlashVFX" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.743756)
+material_override = SubResource("StandardMaterial3D_4lxv3")
+emitting = false
+speed_scale = 2.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_u2uji")
+draw_pass_1 = SubResource("QuadMesh_1tl4i")
+script = ExtResource("4_7k2f4")
+
+[node name="ImpactSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_5akx1")
+volume_db = -14.479
+script = ExtResource("7_87hj8")
+
+[node name="WeaponCursor" parent="." instance=ExtResource("8_igoof")]

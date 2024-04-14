@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://ojuvcsu02vt8"]
+
+[ext_resource type="Script" path="res://scenes/player/PlayerController.gd" id="1_m7ytr"]
+[ext_resource type="PackedScene" uid="uid://bluf74mfjs3tw" path="res://scenes/player/PlayerWeapon.tscn" id="2_elaq7"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/3d/fps/SxFPSCrosshair.gd" id="3_4j8wo"]
+[ext_resource type="PackedScene" uid="uid://cap326e5n3ft1" path="res://scenes/summoning_ring/SummoningRing.tscn" id="4_e210u"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/3d/SxZoneLimitsTracker.gd" id="5_hjv6x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dd5b5"]
+height = 2.19321
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1sxem"]
+size = Vector3(1, 2.15112, 1)
+
+[node name="PlayerController" type="CharacterBody3D" node_paths=PackedStringArray("camera", "weapon", "collision_shape", "hitbox", "knee_raycast", "foot_raycast")]
+script = ExtResource("1_m7ytr")
+move_forward_action = "move_forward"
+move_backward_action = "move_backward"
+move_left_action = "move_left"
+move_right_action = "move_right"
+jump_action = "jump"
+fire_action = "fire"
+crouch_action = "crouch"
+walk_action = "walk"
+camera = NodePath("Camera3D")
+weapon = NodePath("Camera3D/PlayerWeapon")
+collision_shape = NodePath("CollisionShape3D")
+hitbox = NodePath("Hitbox")
+knee_raycast = NodePath("KneeRayCast")
+foot_raycast = NodePath("FootRayCast")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.952879, 0.00747585)
+
+[node name="PlayerWeapon" parent="Camera3D" node_paths=PackedStringArray("raycast") instance=ExtResource("2_elaq7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.518614, -0.434279, -0.709561)
+raycast = NodePath("../RayCast3D")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.538023)
+target_position = Vector3(0, -50, 0)
+collide_with_areas = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_dd5b5")
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0155632, 0)
+shape = SubResource("BoxShape3D_1sxem")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="SxFPSCrosshair" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("3_4j8wo")
+crosshair_size = Vector2(50, 25)
+crosshair_width = 2
+
+[node name="SummoningRing" parent="HUD" instance=ExtResource("4_e210u")]
+unique_name_in_owner = true
+
+[node name="SxZoneLimitsTracker" type="Node3D" parent="."]
+script = ExtResource("5_hjv6x")
+
+[node name="KneeRayCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.330487, 0)
+target_position = Vector3(0, 0, -1)
+
+[node name="FootRayCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.980727, 0)
+target_position = Vector3(0, 0, -1)

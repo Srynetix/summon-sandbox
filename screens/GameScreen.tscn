@@ -1,0 +1,225 @@
+[gd_scene load_steps=27 format=3 uid="uid://cv3t77delxpe1"]
+
+[ext_resource type="Script" path="res://screens/GameScreen.gd" id="1_8n8f7"]
+[ext_resource type="Environment" uid="uid://bxl6o0mgig88o" path="res://resources/WorldEnvironment.tres" id="1_131qo"]
+[ext_resource type="PackedScene" uid="uid://ojuvcsu02vt8" path="res://scenes/player/PlayerController.tscn" id="2_11kvk"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/fx/SxGPUParticles3D.gd" id="4_3goul"]
+[ext_resource type="RichTextEffect" uid="uid://be56xcpwt6w8u" path="res://addons/sxgd/nodes/ui/SxFadingRichTextLabel/SxFadingRichTextEffect.tres" id="5_8ctck"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/fx/screen-effects/SxFxChromaticAberration/SxFxChromaticAberration.gd" id="5_83u88"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/fx/screen-effects/SxFxDissolve/SxFxDissolve.gd" id="5_h5mlh"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/ui/SxFadingRichTextLabel/SxFadingRichTextLabel.gd" id="6_xx6un"]
+[ext_resource type="Shader" path="res://addons/sxgd/nodes/fx/screen-effects/SxFxDissolve/SxFxDissolve.gdshader" id="7_imy06"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5fhf3"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_oypfm"]
+offsets = PackedFloat32Array(0.636364, 1)
+colors = PackedColorArray(0.0932114, 0.970153, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hxluq"]
+gradient = SubResource("Gradient_oypfm")
+
+[sub_resource type="Curve" id="Curve_qa4s8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.574324, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_3upyd"]
+curve = SubResource("Curve_qa4s8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2g64g"]
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0, 0.5)
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+linear_accel_max = 10.0
+scale_curve = SubResource("CurveTexture_3upyd")
+color_ramp = SubResource("GradientTexture1D_hxluq")
+
+[sub_resource type="TextMesh" id="TextMesh_itwv2"]
+text = "Wooosh"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ih2d7"]
+size = Vector3(1000, 2, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rkrba"]
+transparency = 1
+albedo_color = Color(0, 0.85098, 1, 0.313726)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pg2nq"]
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iy5d7"]
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pxr76"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8ysh2"]
+noise = SubResource("FastNoiseLite_pxr76")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4loon"]
+shader = ExtResource("7_imy06")
+shader_parameter/dissolution_level = 0.0
+shader_parameter/edge_width = 0.0
+shader_parameter/edge_color1 = Color(0, 0, 0, 1)
+shader_parameter/edge_color2 = Color(0, 0, 0, 1)
+shader_parameter/replacement_color = Color(1, 1, 1, 0)
+shader_parameter/noise = SubResource("NoiseTexture2D_8ysh2")
+
+[sub_resource type="Animation" id="Animation_mequj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%Success:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jb5r6"]
+resource_name = "success"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%Success:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sxqf2"]
+_data = {
+"RESET": SubResource("Animation_mequj"),
+"success": SubResource("Animation_jb5r6")
+}
+
+[node name="GameScreen" type="Node3D"]
+script = ExtResource("1_8n8f7")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_131qo")
+
+[node name="PlayerController" parent="." instance=ExtResource("2_11kvk")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.154806, 18.5825, -92.4229)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.269718, 0.962939, -0.000766764, 0, 0.000796275, 1, 0.962939, -0.269718, 0.00021477, 0.454642, 57.262, -0.813574)
+shadow_enabled = true
+
+[node name="SpawnVFX" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235484, -0.124013, -0.0324755)
+material_override = SubResource("StandardMaterial3D_5fhf3")
+emitting = false
+amount = 32
+lifetime = 0.75
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_2g64g")
+draw_pass_1 = SubResource("TextMesh_itwv2")
+script = ExtResource("4_3goul")
+
+[node name="GroundZone" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GroundZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -26.084, 0)
+shape = SubResource("BoxShape3D_ih2d7")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -27.6291, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+material_override = SubResource("StandardMaterial3D_rkrba")
+mesh = SubResource("BoxMesh_pg2nq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_iy5d7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GlitchFX" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("5_83u88")
+amount = 0.0
+
+[node name="DissolveFX" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_4loon")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("5_h5mlh")
+noise_frequency = 0.1
+replacement_color = Color(0.333333, 0, 0.313726, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Help" type="RichTextLabel" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+scroll_active = false
+custom_effects = [ExtResource("5_8ctck")]
+script = ExtResource("6_xx6un")
+char_delay = 0.025
+fade_out_delay = 10.0
+
+[node name="Success" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Success !"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_sxqf2")
+}

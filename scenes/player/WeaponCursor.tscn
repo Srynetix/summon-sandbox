@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5mp37kw4unrq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50c22"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.592157)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sbr2i"]
+size = Vector3(1, 0.25, 1)
+
+[node name="WeaponCursor" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_50c22")
+mesh = SubResource("BoxMesh_sbr2i")
