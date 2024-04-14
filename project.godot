@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Ludum Dare 55"
-run/main_scene="res://screens/GameScreen.tscn"
+config/name="Summon Sandbox"
+run/main_scene="res://screens/BootScreen.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 GameSceneTransitioner="*res://autoloads/GameSceneTransitioner.gd"
 GameData="*res://autoloads/GameData.gd"
+LoadCache="*res://autoloads/LoadCache.gd"
+GameMusic="*res://autoloads/GameMusic.tscn"
 
 [editor_plugins]
 

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmpuwanvf1oo5"]
+
+[ext_resource type="PackedScene" uid="uid://c5oilycpn7qe4" path="res://scenes/Environment.tscn" id="1_5k7mh"]
+[ext_resource type="Script" path="res://screens/EndScreen.gd" id="1_maqi4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy24r"]
+emission_enabled = true
+emission = Color(0.682353, 0.0745098, 0.658824, 1)
+emission_energy_multiplier = 1.54
+
+[sub_resource type="TextMesh" id="TextMesh_h7p0f"]
+text = "Thanks for playing!"
+font_size = 64
+
+[node name="EndScreen" type="Node3D"]
+script = ExtResource("1_maqi4")
+
+[node name="Environment" parent="." instance=ExtResource("1_5k7mh")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.433206, -3.99563)
+material_override = SubResource("StandardMaterial3D_cy24r")
+mesh = SubResource("TextMesh_h7p0f")

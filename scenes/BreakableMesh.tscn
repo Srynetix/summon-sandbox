@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://q3lt0ey0w7tc"]
+[gd_scene load_steps=15 format=3 uid="uid://q3lt0ey0w7tc"]
 
 [ext_resource type="Script" path="res://scenes/BreakableMesh.gd" id="1_4xi5p"]
 [ext_resource type="Script" path="res://addons/sxgd/nodes/fx/SxGPUParticles3D.gd" id="2_gs0q2"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/audio/SxAudioStreamPlayer3D.gd" id="3_3yfml"]
+[ext_resource type="AudioStream" uid="uid://cm2c7wgqp6jbw" path="res://assets/sounds/LD55/impact.wav" id="3_i2qqf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fsnby"]
 resource_local_to_scene = true
@@ -69,3 +71,8 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_fvj2a")
 draw_pass_1 = SubResource("QuadMesh_ekj3y")
 script = ExtResource("2_gs0q2")
+
+[node name="ExplosionSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_i2qqf")
+pitch_scale = 0.5
+script = ExtResource("3_3yfml")

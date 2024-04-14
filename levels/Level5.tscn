@@ -1,0 +1,144 @@
+[gd_scene load_steps=9 format=3 uid="uid://d36ynxyhxsxer"]
+
+[ext_resource type="PackedScene" uid="uid://c5oilycpn7qe4" path="res://scenes/Environment.tscn" id="1_4l7t6"]
+[ext_resource type="Script" path="res://levels/Level5.gd" id="1_t1mtx"]
+[ext_resource type="Material" uid="uid://c1v58ed4r0rqc" path="res://resources/WallMaterial.tres" id="2_llbnp"]
+[ext_resource type="PackedScene" uid="uid://d377dwumtddb5" path="res://scenes/RemovableZone.tscn" id="3_cvi3p"]
+[ext_resource type="PackedScene" uid="uid://q3lt0ey0w7tc" path="res://scenes/BreakableMesh.tscn" id="3_gw5ld"]
+[ext_resource type="Texture2D" uid="uid://ig574bpu5pk0" path="res://assets/textures/test.png" id="4_brwwe"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_irdkb"]
+size = Vector3(100, 0.1, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xoito"]
+size = Vector3(100, 0.1, 100)
+
+[node name="Level5" type="Node3D"]
+script = ExtResource("1_t1mtx")
+
+[node name="Environment" parent="." instance=ExtResource("1_4l7t6")]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.4503, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_irdkb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+material_override = ExtResource("2_llbnp")
+mesh = SubResource("BoxMesh_xoito")
+
+[node name="PlayerPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19.3511, 20.9062)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 37.7655, 0)
+use_collision = true
+size = Vector3(20, 15, 20)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+operation = 2
+size = Vector3(19, 14, 19)
+
+[node name="RemovableZone" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("3_cvi3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 103.351, 0)
+shape_size = Vector3(10, 0.5, 10)
+csg_shape = NodePath("../CSGBox3D3")
+repeat = true
+texture = ExtResource("4_brwwe")
+
+[node name="RemovableZone2" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("3_cvi3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 88.9233, 0)
+shape_size = Vector3(10, 0.5, 10)
+csg_shape = NodePath("../CSGBox3D3")
+repeat = true
+texture = ExtResource("4_brwwe")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69.128, 0)
+use_collision = true
+size = Vector3(20, 15, 20)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D2"]
+operation = 2
+size = Vector3(19, 14, 19)
+
+[node name="RemovableZone3" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("3_cvi3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 75.9025, 0)
+shape_size = Vector3(10, 0.5, 10)
+csg_shape = NodePath("../CSGBox3D2")
+repeat = true
+texture = ExtResource("4_brwwe")
+
+[node name="RemovableZone4" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("3_cvi3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 61.5276, 0)
+shape_size = Vector3(10, 0.5, 10)
+csg_shape = NodePath("../CSGBox3D2")
+repeat = true
+texture = ExtResource("4_brwwe")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 96.53, 0)
+material_override = ExtResource("2_llbnp")
+use_collision = true
+size = Vector3(20, 15, 20)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D3"]
+operation = 2
+size = Vector3(19, 14, 19)
+
+[node name="RemovableZone5" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("3_cvi3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 44.6893, 0)
+shape_size = Vector3(10, 0.5, 10)
+csg_shape = NodePath("../CSGBox3D")
+repeat = true
+texture = ExtResource("4_brwwe")
+
+[node name="RemovableZone6" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("3_cvi3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 29.8913, 0)
+shape_size = Vector3(10, 0.5, 10)
+csg_shape = NodePath("../CSGBox3D")
+repeat = true
+texture = ExtResource("4_brwwe")
+
+[node name="BreakableMesh" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.1745, 34.3491)
+
+[node name="BreakableMesh2" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.1985, 17.1745, 14.9522)
+
+[node name="BreakableMesh3" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.1985, 17.1745, -9.27147)
+
+[node name="BreakableMesh4" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.33548, 17.1745, -9.27147)
+
+[node name="BreakableMesh5" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.33548, 17.1745, 5.52557)
+
+[node name="BreakableMesh6" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4834, 17.1745, 5.52557)
+
+[node name="BreakableMesh7" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4834, 17.1745, -17.0361)
+
+[node name="BreakableMesh8" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.1533, 17.1745, -17.0361)
+
+[node name="BreakableMesh9" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.1533, 17.1745, 1.85685)
+
+[node name="BreakableMesh10" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.1053, 17.1745, 1.85685)
+
+[node name="BreakableMesh11" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.1053, 17.1745, 23.9289)
+
+[node name="BreakableMesh12" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.1053, 17.1745, 23.9289)
+
+[node name="BreakableMesh13" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6937, 17.1745, -39.8687)
+
+[node name="BreakableMesh14" parent="." instance=ExtResource("3_gw5ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.51515, 17.1745, -39.8687)

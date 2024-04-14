@@ -1,12 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://ckm2ttwscpslt"]
+[gd_scene load_steps=10 format=3 uid="uid://ckm2ttwscpslt"]
 
 [ext_resource type="Script" path="res://scenes/HelpZone.gd" id="1_7hxwm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yf3i3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fap74"]
-transparency = 1
-albedo_color = Color(0.172549, 0.352941, 1, 0.356863)
+albedo_color = Color(0.270588, 1, 1, 1)
 emission_enabled = true
 emission = Color(0.0235294, 1, 1, 1)
 
@@ -14,17 +13,77 @@ emission = Color(0.0235294, 1, 1, 1)
 size = Vector3(1.5, 0.1, 1.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hvesd"]
-transparency = 1
 albedo_color = Color(0.435294, 1, 0.854902, 0.411765)
 emission_enabled = true
 emission = Color(0.027451, 0.560784, 0.560784, 1)
-emission_energy_multiplier = 5.67
 billboard_mode = 1
 billboard_keep_scale = true
 
 [sub_resource type="TextMesh" id="TextMesh_lfn2l"]
 text = "?"
 font_size = 127
+
+[sub_resource type="Animation" id="Animation_b5k1c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("QuestionMark:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Base:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xrpwg"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("QuestionMark:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1, 0), Vector3(0, 1.25, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Base:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jdfd6"]
+_data = {
+"RESET": SubResource("Animation_b5k1c"),
+"hover": SubResource("Animation_xrpwg")
+}
 
 [node name="HelpZone" type="Area3D"]
 script = ExtResource("1_7hxwm")
@@ -33,12 +92,23 @@ script = ExtResource("1_7hxwm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.488874, 0)
 shape = SubResource("BoxShape3D_yf3i3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Base" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0577483, 0)
 material_override = SubResource("StandardMaterial3D_fap74")
 mesh = SubResource("BoxMesh_50l41")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00149, 0)
+[node name="QuestionMark" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("StandardMaterial3D_hvesd")
 mesh = SubResource("TextMesh_lfn2l")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jdfd6")
+}
+autoplay = "hover"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838874, 0)
+light_color = Color(0, 0.94902, 1, 1)
+light_energy = 0.25

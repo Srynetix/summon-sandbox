@@ -3,6 +3,7 @@ class_name GameBreakableMesh
 
 @onready var _mesh := $MeshInstance3D as MeshInstance3D
 @onready var _explosion_vfx := $ExplosionVFX as SxGPUParticles3D
+@onready var _explosion_sfx := $ExplosionSFX as SxAudioStreamPlayer3D
 
 const MAX_HEALTH = 5.0
 
@@ -20,4 +21,5 @@ func hit() -> void:
 
     if _health <= 0:
         _explosion_vfx.spawn_duplicate_at_position(global_position)
+        _explosion_sfx.spawn_duplicate_at_position(global_position)
         queue_free()

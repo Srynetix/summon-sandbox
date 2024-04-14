@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://ojuvcsu02vt8"]
+[gd_scene load_steps=10 format=3 uid="uid://ojuvcsu02vt8"]
 
 [ext_resource type="Script" path="res://scenes/player/PlayerController.gd" id="1_m7ytr"]
 [ext_resource type="PackedScene" uid="uid://bluf74mfjs3tw" path="res://scenes/player/PlayerWeapon.tscn" id="2_elaq7"]
 [ext_resource type="Script" path="res://addons/sxgd/nodes/3d/fps/SxFPSCrosshair.gd" id="3_4j8wo"]
 [ext_resource type="PackedScene" uid="uid://cap326e5n3ft1" path="res://scenes/summoning_ring/SummoningRing.tscn" id="4_e210u"]
 [ext_resource type="Script" path="res://addons/sxgd/nodes/3d/SxZoneLimitsTracker.gd" id="5_hjv6x"]
+[ext_resource type="AudioStream" uid="uid://cidlkalr4bay2" path="res://assets/sounds/LD55/jump.wav" id="6_7hd8s"]
+[ext_resource type="AudioStream" uid="uid://cr1g8phu75f" path="res://assets/sounds/LD55/dash.wav" id="7_snsmp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dd5b5"]
 height = 2.19321
@@ -31,13 +33,14 @@ foot_raycast = NodePath("FootRayCast")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.952879, 0.00747585)
+current = true
 
 [node name="PlayerWeapon" parent="Camera3D" node_paths=PackedStringArray("raycast") instance=ExtResource("2_elaq7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.518614, -0.434279, -0.709561)
 raycast = NodePath("../RayCast3D")
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.538023)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.379964)
 target_position = Vector3(0, -50, 0)
 collide_with_areas = true
 
@@ -51,6 +54,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0155632, 0)
 shape = SubResource("BoxShape3D_1sxem")
 
 [node name="HUD" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="SxFPSCrosshair" type="Control" parent="HUD"]
 layout_mode = 3
@@ -64,8 +68,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("3_4j8wo")
-crosshair_size = Vector2(50, 25)
-crosshair_width = 2
+crosshair_size = Vector2(12, 7)
 
 [node name="SummoningRing" parent="HUD" instance=ExtResource("4_e210u")]
 unique_name_in_owner = true
@@ -80,3 +83,10 @@ target_position = Vector3(0, 0, -1)
 [node name="FootRayCast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.980727, 0)
 target_position = Vector3(0, 0, -1)
+
+[node name="JumpSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_7hd8s")
+
+[node name="DashSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_snsmp")
+volume_db = -10.0

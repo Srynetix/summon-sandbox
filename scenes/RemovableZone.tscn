@@ -1,20 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://d377dwumtddb5"]
+[gd_scene load_steps=7 format=3 uid="uid://d377dwumtddb5"]
 
 [ext_resource type="Script" path="res://scenes/RemovableZone.gd" id="1_oys8r"]
 [ext_resource type="Shader" path="res://addons/sxgd/nodes/3d/SxDecal/SxDecal.gdshader" id="2_otr3f"]
-[ext_resource type="Texture2D" uid="uid://fnws5nw1m5se" path="res://addons/sxgd/assets/textures/icon.png" id="3_x2vfb"]
 [ext_resource type="Script" path="res://addons/sxgd/nodes/3d/SxDecal/SxDecal.gd" id="3_y778t"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ya7ss"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pp6tq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_70dg1"]
 render_priority = 0
 shader = ExtResource("2_otr3f")
 shader_parameter/albedo = Color(1, 1, 1, 0)
 shader_parameter/cube_half_size = 0.5
-shader_parameter/texture_albedo = ExtResource("3_x2vfb")
+shader_parameter/repeat = false
 
-[sub_resource type="BoxMesh" id="BoxMesh_okya6"]
+[sub_resource type="BoxMesh" id="BoxMesh_noe6o"]
 size = Vector3(1, 0.1, 1)
 
 [node name="RemovableZone" type="Area3D"]
@@ -24,7 +23,6 @@ script = ExtResource("1_oys8r")
 shape = SubResource("BoxShape3D_ya7ss")
 
 [node name="SxDecal" type="MeshInstance3D" parent="."]
-material_override = SubResource("ShaderMaterial_pp6tq")
-mesh = SubResource("BoxMesh_okya6")
+material_override = SubResource("ShaderMaterial_70dg1")
+mesh = SubResource("BoxMesh_noe6o")
 script = ExtResource("3_y778t")
-texture = ExtResource("3_x2vfb")

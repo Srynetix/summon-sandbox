@@ -1,9 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c1v58ed4r0rqc"]
-
-[ext_resource type="Texture2D" uid="uid://cwbd5c548t8f3" path="res://assets/textures/wall.png" id="1_g77v5"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c1v58ed4r0rqc"]
 
 [resource]
-albedo_texture = ExtResource("1_g77v5")
-metallic = 0.67
-metallic_specular = 0.89
-roughness = 0.34

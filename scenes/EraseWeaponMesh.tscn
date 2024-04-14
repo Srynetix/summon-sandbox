@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://fjj4qgqnveqj"]
+
+[ext_resource type="PackedScene" uid="uid://3g4j6bgmsj6m" path="res://assets/meshes/Weapon.glb" id="1_lmien"]
+
+[node name="EraseWeapon" instance=ExtResource("1_lmien")]

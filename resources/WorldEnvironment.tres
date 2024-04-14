@@ -11,7 +11,10 @@ sky_material = SubResource("ProceduralSkyMaterial_ef62o")
 
 [resource]
 background_mode = 2
+background_energy_multiplier = 0.75
 sky = SubResource("Sky_nntqt")
+ambient_light_source = 3
+ambient_light_color = Color(0.729412, 0.27451, 0.662745, 1)
 tonemap_mode = 3
 fog_enabled = true
 fog_light_energy = 0.0

@@ -1,41 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://cap326e5n3ft1"]
+[gd_scene load_steps=12 format=3 uid="uid://cap326e5n3ft1"]
 
 [ext_resource type="Script" path="res://scenes/summoning_ring/SummoningRing.gd" id="1_gii0m"]
-
-[sub_resource type="Animation" id="Animation_3eg73"]
-resource_name = "show"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.098073, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+[ext_resource type="Script" path="res://addons/sxgd/nodes/fx/screen-effects/SxFxVignette/SxFxVignette.gd" id="2_14daq"]
+[ext_resource type="AudioStream" uid="uid://b555rlp5b778a" path="res://assets/sounds/LD55/select.wav" id="3_fejln"]
+[ext_resource type="AudioStream" uid="uid://gn22us52vtj" path="res://assets/sounds/LD55/cursor.wav" id="4_g8g5v"]
+[ext_resource type="AudioStream" uid="uid://b2uritdbbkeqy" path="res://assets/sounds/LD55/ring_ok.wav" id="5_021bn"]
+[ext_resource type="AudioStream" uid="uid://dy2t62eqxc673" path="res://assets/sounds/LD55/ring_ko.wav" id="6_rne4f"]
+[ext_resource type="FontFile" uid="uid://b0uwjlvt0sevu" path="res://addons/sxgd/modules/SxFontAwesome/assets/otfs/Font Awesome 6 Free-Solid-900.otf" id="7_4rbtt"]
 
 [sub_resource type="Animation" id="Animation_6agkf"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:self_modulate")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -85,6 +63,34 @@ tracks/1/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_3eg73"]
+resource_name = "show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.098073, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5bepb"]
 _data = {
 "RESET": SubResource("Animation_6agkf"),
@@ -93,7 +99,6 @@ _data = {
 }
 
 [node name="SummoningRing" type="Control"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -102,7 +107,55 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gii0m")
 
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Caption" type="RichTextLabel" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/line_separation = 5
+theme_override_fonts/normal_font = ExtResource("7_4rbtt")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_5bepb")
 }
+
+[node name="SxFxVignette" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_14daq")
+
+[node name="SelectSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_fejln")
+
+[node name="CursorSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_g8g5v")
+
+[node name="RingOkSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_021bn")
+
+[node name="RingKoSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_rne4f")

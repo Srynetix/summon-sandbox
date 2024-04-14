@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://d11enjcokoxcr"]
+
+[ext_resource type="Script" path="res://screens/TitleScreen.gd" id="1_tbv12"]
+[ext_resource type="PackedScene" uid="uid://c5oilycpn7qe4" path="res://scenes/Environment.tscn" id="2_3s2mx"]
+[ext_resource type="FontFile" uid="uid://b0uwjlvt0sevu" path="res://addons/sxgd/modules/SxFontAwesome/assets/otfs/Font Awesome 6 Free-Solid-900.otf" id="3_6w6vs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_faovk"]
+emission_enabled = true
+emission = Color(0.729412, 0.254902, 0.67451, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_nlagx"]
+text = "Summon
+Sandbox"
+font_size = 64
+line_spacing = -30.0
+
+[sub_resource type="TextMesh" id="TextMesh_iuxgc"]
+text = "bomb arrows-up-to-line lightbulb square circle"
+font = ExtResource("3_6w6vs")
+
+[node name="TitleScreen" type="Node3D"]
+script = ExtResource("1_tbv12")
+
+[node name="Environment" parent="." instance=ExtResource("2_3s2mx")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 500
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+text = "Start"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.885816, -0.0275032, 0.463221, 0, 0.998242, 0.0592695, -0.464037, -0.0525019, 0.884259, 1.87456, 2.25093, 3.35979)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.979925, 0, 0.199368, 0, 1, 0, -0.199368, 0, 0.979925, 0.55, 2.505, 1.205)
+material_override = SubResource("StandardMaterial3D_faovk")
+mesh = SubResource("TextMesh_nlagx")
+
+[node name="Boom" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.898794, 0, 0.438371, 0, 1, 0, -0.438371, 0, 0.898794, 0.965, 1.725, 1.665)
+material_override = SubResource("StandardMaterial3D_faovk")
+mesh = SubResource("TextMesh_iuxgc")

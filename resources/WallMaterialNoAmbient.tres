@@ -1,0 +1,4 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dvro74sfstxt0"]
+
+[resource]
+disable_ambient_light = true

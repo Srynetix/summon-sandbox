@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://46jymsgsgyqy"]
+
+[ext_resource type="PackedScene" uid="uid://d377dwumtddb5" path="res://scenes/RemovableZone.tscn" id="1_ncwdv"]
+[ext_resource type="Script" path="res://addons/sxgd/nodes/3d/fps/SxFPSCamera.gd" id="2_nypgf"]
+
+[node name="TestDecal" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(5, 5, 5)
+
+[node name="RemovableZone" parent="." instance=ExtResource("1_ncwdv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 2.5643)
+shape_size = Vector3(2, 0.1, 4)
+
+[node name="SxFPSCamera" type="Camera3D" parent="."]
+transform = Transform3D(0.968593, -0.0480752, 0.243961, 0, 0.981131, 0.193342, -0.248653, -0.18727, 0.950317, 1.14383, 0.273753, 6.0941)
+current = true
+script = ExtResource("2_nypgf")
+move_forward_action = "move_forward"
+move_backward_action = "move_backward"
+move_left_action = "move_left"
+move_right_action = "move_right"
+enable_spectator_mode = true

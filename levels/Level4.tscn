@@ -1,0 +1,146 @@
+[gd_scene load_steps=17 format=3 uid="uid://dch4b68pln725"]
+
+[ext_resource type="Script" path="res://levels/Level4.gd" id="1_r3h1e"]
+[ext_resource type="PackedScene" uid="uid://c5oilycpn7qe4" path="res://scenes/Environment.tscn" id="1_w7y1v"]
+[ext_resource type="Material" uid="uid://c1v58ed4r0rqc" path="res://resources/WallMaterial.tres" id="2_qyfee"]
+[ext_resource type="PackedScene" uid="uid://3g4j6bgmsj6m" path="res://assets/meshes/Weapon.glb" id="4_htj6i"]
+[ext_resource type="AudioStream" uid="uid://b555rlp5b778a" path="res://assets/sounds/LD55/select.wav" id="5_0g4m0"]
+[ext_resource type="PackedScene" uid="uid://cnyp2yub8ahxg" path="res://scenes/SummonHint.tscn" id="6_qxvib"]
+[ext_resource type="FontFile" uid="uid://b0uwjlvt0sevu" path="res://addons/sxgd/modules/SxFontAwesome/assets/otfs/Font Awesome 6 Free-Solid-900.otf" id="7_byp01"]
+[ext_resource type="PackedScene" uid="uid://d377dwumtddb5" path="res://scenes/RemovableZone.tscn" id="8_ooiac"]
+[ext_resource type="Texture2D" uid="uid://ig574bpu5pk0" path="res://assets/textures/test.png" id="9_5y54d"]
+[ext_resource type="PackedScene" uid="uid://ckm2ttwscpslt" path="res://scenes/HelpZone.tscn" id="10_7lp3h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fuagc"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="Animation" id="Animation_xu8ph"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0djjq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ll023"]
+_data = {
+"RESET": SubResource("Animation_0djjq"),
+"hover": SubResource("Animation_xu8ph")
+}
+
+[sub_resource type="TextMesh" id="TextMesh_k6471"]
+resource_local_to_scene = true
+text = "square =
+square square square"
+font = ExtResource("7_byp01")
+font_size = 127
+
+[sub_resource type="TextMesh" id="TextMesh_wjvr0"]
+resource_local_to_scene = true
+text = "circle =
+circle circle circle"
+font = ExtResource("7_byp01")
+font_size = 127
+
+[node name="Level4" type="Node3D"]
+script = ExtResource("1_r3h1e")
+
+[node name="Environment" parent="." instance=ExtResource("1_w7y1v")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 37.703, -12.847)
+use_collision = true
+size = Vector3(21, 21, 21)
+material = ExtResource("2_qyfee")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+operation = 2
+size = Vector3(20, 20, 20)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.658487, -7.15163, 10.3784)
+operation = 2
+size = Vector3(4, 4, 4)
+
+[node name="PlayerPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 37.703, -12.847)
+
+[node name="WeaponEraseWrapper" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.719217, 30.1458, -2.46856)
+
+[node name="Weapon" parent="WeaponEraseWrapper" instance=ExtResource("4_htj6i")]
+unique_name_in_owner = true
+transform = Transform3D(-0.557035, 0, 0.830489, 0, 1, 0, -0.830489, 0, -0.557035, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponEraseWrapper"]
+shape = SubResource("BoxShape3D_fuagc")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WeaponEraseWrapper"]
+light_color = Color(1, 0.294118, 0.968627, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponEraseWrapper"]
+libraries = {
+"": SubResource("AnimationLibrary_ll023")
+}
+autoplay = "hover"
+
+[node name="PickSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_0g4m0")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33.3645, 0)
+material_override = ExtResource("2_qyfee")
+use_collision = true
+size = Vector3(50, 50, 50)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D2"]
+operation = 2
+size = Vector3(49, 49, 49)
+
+[node name="SummonHint" parent="." instance=ExtResource("6_qxvib")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.80367, 16.161, -23.654)
+mesh = SubResource("TextMesh_k6471")
+text = "square =
+square square square"
+
+[node name="SummonHint2" parent="." instance=ExtResource("6_qxvib")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.16899, 16.4995, -24.0353)
+mesh = SubResource("TextMesh_wjvr0")
+text = "circle =
+circle circle circle"
+
+[node name="RemovableZone" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("8_ooiac")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 22.2757, 24.4777)
+shape_size = Vector3(4, 0.1, 4)
+csg_shape = NodePath("../CSGBox3D2")
+repeat = true
+texture = ExtResource("9_5y54d")
+
+[node name="HelpZone" parent="." groups=["HelpZone"] instance=ExtResource("10_7lp3h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.05101, 22.2714)
+text = "You will need a summon combo!"

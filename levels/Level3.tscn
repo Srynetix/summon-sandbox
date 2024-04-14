@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://pxad2nexkpk7"]
+
+[ext_resource type="Script" path="res://levels/Level3.gd" id="1_e465k"]
+[ext_resource type="PackedScene" uid="uid://c5oilycpn7qe4" path="res://scenes/Environment.tscn" id="1_h66dm"]
+[ext_resource type="Material" uid="uid://dvro74sfstxt0" path="res://resources/WallMaterialNoAmbient.tres" id="3_lrqh8"]
+[ext_resource type="FontFile" uid="uid://b0uwjlvt0sevu" path="res://addons/sxgd/modules/SxFontAwesome/assets/otfs/Font Awesome 6 Free-Solid-900.otf" id="4_driys"]
+[ext_resource type="PackedScene" uid="uid://d377dwumtddb5" path="res://scenes/RemovableZone.tscn" id="5_sx2md"]
+[ext_resource type="Texture2D" uid="uid://ig574bpu5pk0" path="res://assets/textures/test.png" id="6_fnnvo"]
+[ext_resource type="PackedScene" uid="uid://cnyp2yub8ahxg" path="res://scenes/SummonHint.tscn" id="7_3u3gx"]
+
+[sub_resource type="TextMesh" id="TextMesh_evvk6"]
+resource_local_to_scene = true
+text = "lightbulb =
+meteor star circle"
+font = ExtResource("4_driys")
+font_size = 127
+
+[node name="Level3" type="Node3D"]
+script = ExtResource("1_e465k")
+
+[node name="Environment" parent="." instance=ExtResource("1_h66dm")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+material_override = ExtResource("3_lrqh8")
+use_collision = true
+size = Vector3(20, 20, 20)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+operation = 2
+size = Vector3(19, 19, 19)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.45763, -6.92179, -6.93912)
+operation = 2
+size = Vector3(10, 5, 5)
+
+[node name="PlayerPosition" type="Marker3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." groups=["GameLight"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.3423, 0)
+light_color = Color(1, 0.443137, 0.988235, 1)
+light_energy = 5.876
+shadow_enabled = true
+omni_range = 2611.21
+
+[node name="RemovableZone" parent="." node_paths=PackedStringArray("csg_shape") instance=ExtResource("5_sx2md")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 5.53429, -2.6624, -9.50606)
+shape_size = Vector3(3, 0.1, 4)
+csg_shape = NodePath("../CSGBox3D")
+repeat = true
+texture = ExtResource("6_fnnvo")
+
+[node name="SummonHint" parent="." instance=ExtResource("7_3u3gx")]
+transform = Transform3D(-0.71917, -0.694834, 3.03722e-08, 0, -4.37114e-08, -1, 0.694834, -0.71917, 3.14359e-08, 0.112993, 9.46577, 0.149907)
+mesh = SubResource("TextMesh_evvk6")
+text = "lightbulb =
+meteor star circle"

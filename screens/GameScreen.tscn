@@ -1,7 +1,6 @@
-[gd_scene load_steps=27 format=3 uid="uid://cv3t77delxpe1"]
+[gd_scene load_steps=24 format=3 uid="uid://cv3t77delxpe1"]
 
 [ext_resource type="Script" path="res://screens/GameScreen.gd" id="1_8n8f7"]
-[ext_resource type="Environment" uid="uid://bxl6o0mgig88o" path="res://resources/WorldEnvironment.tres" id="1_131qo"]
 [ext_resource type="PackedScene" uid="uid://ojuvcsu02vt8" path="res://scenes/player/PlayerController.tscn" id="2_11kvk"]
 [ext_resource type="Script" path="res://addons/sxgd/nodes/fx/SxGPUParticles3D.gd" id="4_3goul"]
 [ext_resource type="RichTextEffect" uid="uid://be56xcpwt6w8u" path="res://addons/sxgd/nodes/ui/SxFadingRichTextLabel/SxFadingRichTextEffect.tres" id="5_8ctck"]
@@ -9,6 +8,7 @@
 [ext_resource type="Script" path="res://addons/sxgd/nodes/fx/screen-effects/SxFxDissolve/SxFxDissolve.gd" id="5_h5mlh"]
 [ext_resource type="Script" path="res://addons/sxgd/nodes/ui/SxFadingRichTextLabel/SxFadingRichTextLabel.gd" id="6_xx6un"]
 [ext_resource type="Shader" path="res://addons/sxgd/nodes/fx/screen-effects/SxFxDissolve/SxFxDissolve.gdshader" id="7_imy06"]
+[ext_resource type="PackedScene" uid="uid://c5oilycpn7qe4" path="res://scenes/Environment.tscn" id="9_us4ty"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5fhf3"]
 transparency = 1
@@ -51,36 +51,26 @@ text = "Wooosh"
 [sub_resource type="BoxShape3D" id="BoxShape3D_ih2d7"]
 size = Vector3(1000, 2, 1000)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rkrba"]
-transparency = 1
-albedo_color = Color(0, 0.85098, 1, 0.313726)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bq5h6"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_pg2nq"]
-size = Vector3(1000, 1, 1000)
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sx5hk"]
+noise = SubResource("FastNoiseLite_bq5h6")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_iy5d7"]
-size = Vector3(1000, 1, 1000)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_pxr76"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8ysh2"]
-noise = SubResource("FastNoiseLite_pxr76")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4loon"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_df4gg"]
 shader = ExtResource("7_imy06")
 shader_parameter/dissolution_level = 0.0
 shader_parameter/edge_width = 0.0
 shader_parameter/edge_color1 = Color(0, 0, 0, 1)
 shader_parameter/edge_color2 = Color(0, 0, 0, 1)
 shader_parameter/replacement_color = Color(1, 1, 1, 0)
-shader_parameter/noise = SubResource("NoiseTexture2D_8ysh2")
+shader_parameter/noise = SubResource("NoiseTexture2D_sx5hk")
 
 [sub_resource type="Animation" id="Animation_mequj"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%Success:modulate")
+tracks/0/path = NodePath("../CanvasLayer2/Success:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -95,7 +85,7 @@ resource_name = "success"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%Success:modulate")
+tracks/0/path = NodePath("../CanvasLayer2/Success:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -114,16 +104,9 @@ _data = {
 [node name="GameScreen" type="Node3D"]
 script = ExtResource("1_8n8f7")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource("1_131qo")
-
 [node name="PlayerController" parent="." instance=ExtResource("2_11kvk")]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.154806, 18.5825, -92.4229)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.269718, 0.962939, -0.000766764, 0, 0.000796275, 1, 0.962939, -0.269718, 0.00021477, 0.454642, 57.262, -0.813574)
-shadow_enabled = true
 
 [node name="SpawnVFX" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235484, -0.124013, -0.0324755)
@@ -142,16 +125,6 @@ script = ExtResource("4_3goul")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -26.084, 0)
 shape = SubResource("BoxShape3D_ih2d7")
 
-[node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -27.6291, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-material_override = SubResource("StandardMaterial3D_rkrba")
-mesh = SubResource("BoxMesh_pg2nq")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("BoxShape3D_iy5d7")
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="GlitchFX" type="ColorRect" parent="CanvasLayer"]
@@ -165,20 +138,10 @@ color = Color(1, 1, 1, 0)
 script = ExtResource("5_83u88")
 amount = 0.0
 
-[node name="DissolveFX" type="ColorRect" parent="CanvasLayer"]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_4loon")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
-script = ExtResource("5_h5mlh")
-noise_frequency = 0.1
-replacement_color = Color(0.333333, 0, 0.313726, 1)
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -189,7 +152,7 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="Help" type="RichTextLabel" parent="CanvasLayer/MarginContainer"]
+[node name="Help" type="RichTextLabel" parent="CanvasLayer2/MarginContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
@@ -198,10 +161,23 @@ bbcode_enabled = true
 scroll_active = false
 custom_effects = [ExtResource("5_8ctck")]
 script = ExtResource("6_xx6un")
-char_delay = 0.025
-fade_out_delay = 10.0
+char_delay = 0.05
+fade_out_delay = 3.0
 
-[node name="Success" type="Label" parent="CanvasLayer"]
+[node name="DissolveFX" type="ColorRect" parent="CanvasLayer2"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_df4gg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("5_h5mlh")
+noise_frequency = 0.1
+replacement_color = Color(0.333333, 0, 0.313726, 1)
+
+[node name="Success" type="Label" parent="CanvasLayer2"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 8
@@ -209,17 +185,21 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -137.0
+offset_top = -44.0
+offset_right = 137.0
+offset_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-text = "Success !"
+theme_override_font_sizes/font_size = 64
+text = "Success!"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer2"]
 unique_name_in_owner = true
+root_node = NodePath("../../CanvasLayer")
 libraries = {
 "": SubResource("AnimationLibrary_sxqf2")
 }
+
+[node name="Environment" parent="." instance=ExtResource("9_us4ty")]

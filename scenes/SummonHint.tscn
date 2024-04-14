@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnyp2yub8ahxg"]
+
+[ext_resource type="FontFile" uid="uid://b0uwjlvt0sevu" path="res://addons/sxgd/modules/SxFontAwesome/assets/otfs/Font Awesome 6 Free-Solid-900.otf" id="1_ekdc5"]
+[ext_resource type="Script" path="res://scenes/SummonHint.gd" id="2_al5t2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_17e3s"]
+emission_enabled = true
+emission = Color(0.666667, 0.313726, 0.752941, 1)
+backlight = Color(1, 0, 1, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_cjho2"]
+resource_local_to_scene = true
+font = ExtResource("1_ekdc5")
+font_size = 127
+
+[node name="SummonHint" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_17e3s")
+mesh = SubResource("TextMesh_cjho2")
+script = ExtResource("2_al5t2")
